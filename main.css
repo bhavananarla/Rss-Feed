@@ -1,0 +1,55 @@
+p {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Calibri';
+}
+
+h1 {
+    font-family: 'Calibri';
+    text-decoration: underline;
+}
+
+h5 {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Calibri';
+}
+
+h3 {
+    margin: 0px;
+    padding: 5px;
+    clear: left;
+    font-family: 'Calibri';
+}
+
+img {
+    padding: 5px 5px 5px 0px;
+    float: left;
+}
+
+#news {
+    padding: 15px;
+    width: 20rem;
+    border: 2px solid #e2e2e2;
+    border-radius: 4px;
+    background-color: #F5F5F5;
+}
+
+#GallenaFeed {
+    padding: 5px;
+}
+
+button {
+    background-color: grey;
+    color: black;
+    border: 5px;
+    border-color: black;
+    padding: 15px 32px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: 'Calibri';
+    ;
+}

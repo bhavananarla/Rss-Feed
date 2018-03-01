@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>RSS Feed Parsing</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+</head>
+
+<body>
+    <div id="news">
+        <h1 id="title"></h1>
+        <div id="GallenaFeed">
+            <script>
+                (function() {
+                    CORSProxy = "https://cors-anywhere.herokuapp.com/";
+                    feedURL = "http://www.gallenauniversity.com/_resources/rss/news.xml";
+                    $.ajax({
+                        url: CORSProxy + feedURL,
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            // will fire when timeout is reache
+                            if (thrownError == "timeout") $("#title").html("Timeout: Feed takes more than 5 seconds to load.");
+                            else $("#title").html(thrownError);
+                        },
+
+                        success: function(data) {
+                            //main program
+                            var xml = data;
+                            //console.log(data);
+                            var feedCount = 0;
+                            if ($(xml).find("rss").length == 0) {
+                                $("#title").html("Feed does not exist at the given URL."); //if xml document does not have rss tag then it returns error
+                                return;
+                            } else if ($(xml).find("item").length == 0) {
+                                $("#title").html("Feed is empty."); //if the rss tag or feed exist but there no items then it return an error
+                                return;
+                            }
+                            $("#title").html("Headlines");
+                            $("<button>").attr("class", "button").html("More News").appendTo("#news");
+                            $(xml).find("item").each(function() {
+                                var el = $(this); //each item is pointed as 'this'
+                                var divID = "feed" + feedCount; //<div id="divID"> append to gallena feed
+                                $("<div>").attr("id", divID).appendTo("#GallenaFeed");
+                                feedCount++;
+                                var title = '<a href="' + el.find("link").text() + '">' + el.find("title").text() + '</a>'; //Title of the feed with link
+                                var dt = $.datepicker.formatDate("MM d, yy", ($.datepicker.parseDate("D, dd M yy", el.find("pubDate").text()))); //formatted date
+                                var imgURL = el.find("media\\:thumbnail").attr("url"); //iamge with url
+                                var desc = el.find("description").text(); //description of the news feed
+                                $("<h3>").html(title).appendTo("#" + divID);
+                                $("<img>").attr("src", imgURL).appendTo("#" + divID);
+                                $("<h5>").html(dt).appendTo("#" + divID);
+                                $("<p>").html(desc).appendTo("#" + divID);
+                            });
+                        },
+                        timeout: 5000 // sets timeout to 5 seconds
+                    });
+                })();
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>
